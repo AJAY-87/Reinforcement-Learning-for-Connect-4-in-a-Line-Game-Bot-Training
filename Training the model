@@ -1,0 +1,49 @@
+#Train P1 (model) against random agent P2
+#Create the environment
+env = make("connectx", debug=True)
+#Optimizer
+optimizer = tf.keras.optimizers.Adam()
+#Set up the experience storage
+exp = Experience()
+epsilon = 1
+epsilon_rate = 0.995
+wins = 0
+win_track = []
+for episode in tqdm.tqdm(range(10000)):
+  #Set up random trainer
+  trainer = env.train([None, 'random'])
+  #First observation
+  obs = np.array(trainer.reset()['board']).reshape(6,7)
+  #Clear cache
+  exp.clear()
+  #Decrease epsilon over time if we want
+  epsilon = epsilon * epsilon_rate
+  #Set initial state
+  state = False
+  while not state:
+    #Get action
+    action, w = getAction(model, obs, epsilon)
+    #Check if action is valid
+    while True:
+      temp_action = action
+      action = checkValid(obs, temp_action)
+      if temp_action == action:
+        break
+    #Play the action and retrieve info
+    new_obs, winner, state, info = trainer.step(action)
+    obs = np.array(new_obs['board']).reshape(6,7)
+    #Get reward
+    reward = getReward(winner, state)
+    #Store experience
+    exp.store_experience(obs, action, reward)
+    #Break if game is over
+    if state:
+      #This would be where training step goes I think
+      if winner == 1:
+        wins += 1
+      win_track.append(wins)
+      train_step(model2, optimizer = optimizer,
+                 observations = np.array(exp.observations),
+                 actions = np.array(exp.actions),
+                 rewards = exp.rewards)
+      break
