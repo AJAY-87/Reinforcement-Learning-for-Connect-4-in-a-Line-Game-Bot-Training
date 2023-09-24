@@ -1,0 +1,14 @@
+def getAction(model, observation, epsilon):
+  #Get the action based on greedy epsilon policy
+  action_decision = epsilonDecision(epsilon)
+  #Reshape the observation to fit in model
+  observation = np.array([observation])
+  #Get predictions
+  preds = model.predict(observation)
+  #Get the softmax activation of the logits
+  weights = tf.nn.softmax(preds).numpy()[0]
+  if action_decision == 'model':
+    action = np.argmax(weights)
+  if action_decision == 'random':
+    action = random.randint(0,6)
+  return int(action), weights
