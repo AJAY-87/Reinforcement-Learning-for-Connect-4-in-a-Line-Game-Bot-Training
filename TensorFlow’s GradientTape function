@@ -1,0 +1,8 @@
+def train_step(model, optimizer, observations, actions, rewards):
+    with tf.GradientTape() as tape:
+      #Propagate through the agent network
+        logits = model(observations)
+        softmax_cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=actions)
+        loss = tf.reduce_mean(softmax_cross_entropy * rewards)
+        grads = tape.gradient(loss, model.trainable_variables)
+        optimizer.apply_gradients(zip(grads, model.trainable_variables))
