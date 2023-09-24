@@ -1,0 +1,9 @@
+# Create the DQN
+input = tf.keras.layers.Input(shape = (num_slots))
+flatten = tf.keras.layers.Flatten()(input)
+hidden_1 = tf.keras.layers.Dense(50, activation = 'relu')(flatten)
+hidden_2 = tf.keras.layers.Dense(50, activation = 'relu')(hidden_1)
+hidden_3 = tf.keras.layers.Dense(50, activation = 'relu')(hidden_2)
+hidden_4 = tf.keras.layers.Dense(50, activation = 'relu')(hidden_3)
+output = tf.keras.layers.Dense(num_actions, activation = "linear")(hidden_4) 
+model = tf.keras.models.Model(inputs = [input], outputs = [output])
