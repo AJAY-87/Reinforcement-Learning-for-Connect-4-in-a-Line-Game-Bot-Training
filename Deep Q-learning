@@ -1,0 +1,5 @@
+#Define epsilon decision function
+def epsilonDecision(epsilon):
+  action_decision = random.choices(['model','random'], weights = [1 - epsilon, epsilon])[0]
+  return action_decision
+epsilonDecision(epsilon = 0) # would always give 'model'
