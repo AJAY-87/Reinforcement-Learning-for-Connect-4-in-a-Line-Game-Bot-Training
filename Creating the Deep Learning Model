@@ -1,0 +1,4 @@
+#Number of possible actions
+num_actions = 7
+#Number of different states
+num_states = [6,7]
