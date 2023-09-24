@@ -1,0 +1,11 @@
+class Experience:
+  def __init__(self):
+    self.clear() 
+  def clear(self):
+    self.observations = []
+    self.actions = []
+    self.rewards = []
+  def store_experience(self, new_obs, new_act, new_reward):
+    self.observations.append(new_obs)
+    self.actions.append(new_act)
+    self.rewards.append(new_reward)
