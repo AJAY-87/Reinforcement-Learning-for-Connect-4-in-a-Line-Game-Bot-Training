@@ -1,0 +1,15 @@
+#Function to get reward
+def getReward(winner, state):
+  #Game not done wet
+  if not state:
+    reward = 0
+  if state: 
+    #If player 1 wins
+    if winner == 1:
+      reward = 50
+    #If player 2 wins
+    if winner == -1:
+      reward = -50
+    if winner == 0:
+      reward = -50
+  return reward
